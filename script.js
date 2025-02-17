@@ -79,6 +79,7 @@ function saveUserData() {
     document.querySelector("#userTable tbody").innerHTML
   );
   toastr.success("User added successfully!");
+  document.getElementById("registrationForm").reset();
 }
 
 function resetForm() {
@@ -90,15 +91,29 @@ window.onload = function () {
     localStorage.getItem("users") || "";
 };
 
-
-function editUser(){
-  toastr.success('User Updated successfully!');
+function editUser() {
+  toastr.success("User Updated successfully!");
 }
-
 
 function deleteUser(button) {
-  button.parentElement.parentElement.remove(); 
-  localStorage.setItem("users", document.querySelector("#userTable tbody").innerHTML);
-  toastr.error('User deleted successfully!');
+  button.parentElement.parentElement.remove();
+  localStorage.setItem(
+    "users",
+    document.querySelector("#userTable tbody").innerHTML
+  );
+  toastr.error("User deleted successfully!");
 }
 
+function deleteSelectedUsers() {
+  const selected = document.querySelectorAll("input.rowCheckbox:checked");
+  if (selected.length === 0) {
+    toastr.warning("No user selected.");
+    return;
+  }
+  selected.forEach((el) => el.closest("tr").remove());
+  localStorage.setItem(
+    "users",
+    document.getElementById("userTable").querySelector("tbody").innerHTML
+  );
+  toastr.error("Selected users deleted successfully!");
+}
