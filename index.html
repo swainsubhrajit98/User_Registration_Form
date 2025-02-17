@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>User Registration Form</h1>
+        <hr>
+
+        <form id="registrationForm">
+            <label>Full Name :</label>
+            <input id="fullName" type="text">
+            <div class="error" id="fullNameError"></div>
+
+            <label>Email :</label>
+            <input id="email" type="email">
+            <div class="error" id="femailError"></div>
+
+            <label>Date Of Birth :</label>
+            <input id="dob" type="date">
+
+            <label>Phone Number :</label>
+            <div id="phoneNumbers">
+                <input class="phone" type="text">
+                <button type="button" class="phoneBtn" onclick="addPhoneField()">+</button>
+            </div>
+            <div class="error" id="phoneError"></div>
+
+
+
+            <label>Address :</label>
+            <textarea id="address"></textarea>
+            <div class="error" id="addressError"></div>
+
+            <div class="address-container">
+                <select id="country" onchange="addStates()">
+                    <option value="">Country</option>
+                    <option value="India">India</option>
+                    <option value="USA">USA</option>
+                    <option value="Canada">Canada</option>
+                </select>
+
+                <select id="state">
+                    <option value="">State</option>
+                </select>
+
+                <input type="text" id="zip" placeholder="Zip">
+                <div class="error" id="zipError"></div>
+            </div>
+
+            <div class="buttons">
+                <button type="button" onclick="resetForm()">Reset</button>
+                <button type="button" onclick="saveUserData()">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="userTable-container">
+        <div class="table-header">
+            <h2>Registered Users</h2>
+            <button>Delete Selected</button>
+        </div>
+        <hr style="width: 100%;">
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Email Address</th>
+                    <th>DOB</th>
+                    <th>Phone Numbers</th>
+                    <th>Address</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

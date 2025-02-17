@@ -1,0 +1,100 @@
+body {
+    margin: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+hr {
+    width: 50%;
+    height: 2px;
+    background-color: black;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.address-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    height: 40px;
+    background-color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.phoneBtn {
+    width: 50px;
+    height: 30px;
+}
+
+table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+.userTable-container {
+    max-width: 1000px;
+    margin: 20px auto;
+}
+.table-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
