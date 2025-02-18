@@ -53,18 +53,6 @@ textarea {
     margin-top: 10px;
 }
 
-button {
-    height: 40px;
-    background-color: white;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.phoneBtn {
-    width: 50px;
-    height: 30px;
-}
 
 table {
     width: 100%;
@@ -85,10 +73,11 @@ td {
 }
 
 .userTable-container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 20px auto;
 }
-.table-header{
+
+.table-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -98,3 +87,10 @@ td {
     color: red;
     font-size: 12px;
 }
+
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+

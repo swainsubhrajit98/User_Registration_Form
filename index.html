@@ -9,6 +9,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 
 </head>
@@ -25,7 +29,7 @@
 
             <label>Email :</label>
             <input id="email" type="email">
-            <div class="error" id="femailError"></div>
+            <div class="error" id="emailError"></div>
 
             <label>Date Of Birth :</label>
             <input id="dob" type="date">
@@ -33,7 +37,7 @@
             <label>Phone Number :</label>
             <div id="phoneNumbers">
                 <input class="phone" type="text">
-                <button type="button" class="phoneBtn" onclick="addPhoneField()">+</button>
+                <button type="button" class="btn btn-primary" onclick="addPhoneField()"><i class="fa-solid fa-plus"></i></button>
             </div>
             <div class="error" id="phoneError"></div>
 
@@ -60,8 +64,8 @@
             </div>
 
             <div class="buttons">
-                <button type="button" onclick="resetForm()">Reset</button>
-                <button type="button" onclick="saveUserData()">Save</button>
+                <button type="button" class="btn btn-danger" onclick="resetForm()">Reset</button>
+                <button type="button" class="btn btn-success" onclick="saveUserData()">Save</button>
             </div>
         </form>
     </div>
@@ -69,10 +73,19 @@
     <div class="userTable-container">
         <div class="table-header">
             <h2>Registered Users</h2>
-            <button id="deleteSelectedBtn" onclick="deleteSelectedUsers()">Delete Selected</button>
+            <div class="sort-container">
+                <select id="sort-btn">
+                    <option value="">Sort</option>
+                    <option value="fullName">Full Name</option>
+                    <option value="email">Email</option>
+                    <option value="dob">DOB</option>
+                    <option value="phone">Phone Number</option>
+                </select>
+                <button id="deleteSelectedBtn" class="btn btn-danger" onclick="deleteSelectedUsers()">Delete Selected</button>
+            </div>
         </div>
         <hr style="width: 100%;">
-        <table id="userTable">
+        <table id="userTable" class="table table-bordered">
             <thead>
                 <tr>
                     <th>Id</th>

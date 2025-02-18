@@ -1,7 +1,7 @@
 function addPhoneField() {
   const phoneDiv = document.createElement("div");
   phoneDiv.innerHTML =
-    '<input class="phone" type="text"> <button type="button" class="phoneBtn" onclick="this.parentNode.remove()">-</button>';
+    '<input class="phone" type="text"><button type="button" class="btn btn-primary" onclick="this.parentNode.remove()"><i class="fa-solid fa-trash"></i></button>';
   document.getElementById("phoneNumbers").appendChild(phoneDiv);
 }
 
@@ -29,33 +29,66 @@ function addStates() {
 }
 
 function saveUserData() {
-  const fullName = document.getElementById("fullName").value;
-  const email = document.getElementById("email").value;
-  const dob = document.getElementById("dob").value;
-  const phones = Array.from(document.querySelectorAll(".phone"))
-    .map((input) => input.value)
-    .filter((val) => val);
-  const address = document.getElementById("address").value;
-  const zip = document.getElementById("zip").value;
+  document.getElementById("fullNameError").textContent = "";
+  document.getElementById("emailError").textContent = "";
+  document.getElementById("phoneError").textContent = "";
+  document.getElementById("addressError").textContent = "";
+  document.getElementById("zipError").textContent = "";
 
-  if (fullName.length < 3 || fullName.length > 64) {
+  const fullName = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const dob = document.getElementById("dob").value.trim();
+  const phones = Array.from(document.querySelectorAll(".phone"))
+    .map((input) => input.value.trim())
+    .filter((val) => val);
+  const address = document.getElementById("address").value.trim();
+  const zip = document.getElementById("zip").value.trim();
+
+  if (fullName === "") {
+    document.getElementById("fullNameError").textContent =
+      "Full name is required";
+    return;
+  } else if (fullName.length < 3 || fullName.length > 64) {
     document.getElementById("fullNameError").textContent =
       "Name should be between 3 to 64 characters";
     return;
   }
-  if (!email.includes("@")) {
-    document.getElementById("emailError").textContent = "Invalid email address";
+
+  if (email === "") {
+    document.getElementById("emailError").textContent = "Email is required";
     return;
+  } else {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      document.getElementById("emailError").textContent =
+        "Invalid email address";
+      return;
+    }
   }
-  if (phones.some((phone) => phone.length !== 10 || isNaN(phone))) {
+
+  if (phones.length === 0) {
     document.getElementById("phoneError").textContent =
-      "Phone number must be 10 digits";
+      "At least one phone number is required";
     return;
+  } else {
+    const phoneRegex = /^\d{10}$/;
+    if (phones.some((phone) => !phoneRegex.test(phone))) {
+      document.getElementById("phoneError").textContent =
+        "Phone number must be exactly 10 digits";
+      return;
+    }
   }
-  if (zip.length !== 6 || isNaN(zip)) {
-    document.getElementById("zipError").textContent =
-      "Zip code must be 6 digits";
+
+  if (zip === "") {
+    document.getElementById("zipError").textContent = "Zip code is required";
     return;
+  } else {
+    const zipRegex = /^\d{6}$/;
+    if (!zipRegex.test(zip)) {
+      document.getElementById("zipError").textContent =
+        "Zip code must be exactly 6 digits";
+      return;
+    }
   }
 
   const tableBody = document.getElementById("userTable").querySelector("tbody");
@@ -68,8 +101,8 @@ function saveUserData() {
       <td>${phones.join(", ")}</td>
       <td>${address}, ${zip}</td>
       <td>
-        <button class="editBtn" onclick="editUser(this)">Edit</button>
-        <button class="deleteBtn" onclick="deleteUser(this)">Delete</button></td>
+        <button class="btn btn-warning" onclick="editUser(this)">Edit</button>
+        <button class="btn btn-danger" onclick="deleteUser(this)">Delete</button>
     </tr>
   `;
 
@@ -80,6 +113,11 @@ function saveUserData() {
   );
   toastr.success("User added successfully!");
   document.getElementById("registrationForm").reset();
+  const phoneNumbersContainer = document.getElementById("phoneNumbers");
+  phoneNumbersContainer.innerHTML = `<div id="phoneNumbers">
+                <input class="phone" type="text">
+                <button type="button" class="btn btn-primary" onclick="addPhoneField()"><i class="fa-solid fa-plus"></i></button>
+            </div>`;
 }
 
 function resetForm() {
@@ -116,4 +154,43 @@ function deleteSelectedUsers() {
     document.getElementById("userTable").querySelector("tbody").innerHTML
   );
   toastr.error("Selected users deleted successfully!");
+}
+
+document.getElementById("sort-btn").addEventListener("change", function () {
+  const sortBy = this.value;
+  if (sortBy) {
+    sortTable(sortBy);
+  }
+});
+
+function sortTable(sortBy) {
+  const table = document.getElementById("userTable");
+  const tbody = table.querySelector("tbody");
+  const rows = Array.from(tbody.querySelectorAll("tr"));
+
+  const columnMap = { fullName: 1, email: 2, dob: 3, phone: 4 };
+  const columnIndex = columnMap[sortBy];
+
+  const sortedRows = rows.sort((a, b) => {
+    const cellA = a.cells[columnIndex].textContent.trim().toLowerCase();
+    const cellB = b.cells[columnIndex].textContent.trim().toLowerCase();
+
+    if (sortBy === "dob") return new Date(cellA) - new Date(cellB);
+    if (sortBy === "phone")
+      return (
+        parseInt(cellA.replace(/\D/g, ""), 10) -
+        parseInt(cellB.replace(/\D/g, ""), 10)
+      );
+    return cellA.localeCompare(cellB);
+  });
+
+  if (tbody.getAttribute("data-sorted") === sortBy) {
+    sortedRows.reverse();
+    tbody.removeAttribute("data-sorted");
+  } else {
+    tbody.setAttribute("data-sorted", sortBy);
+  }
+
+  tbody.innerHTML = "";
+  sortedRows.forEach((row) => tbody.appendChild(row));
 }
